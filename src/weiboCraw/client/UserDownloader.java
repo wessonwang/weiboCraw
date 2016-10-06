@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Random;
 
 import weibo4j.model.User;
+import weibo4j.model.WeiboException;
+import weibo4j.org.json.JSONException;
 import weiboCraw.downloader.UserAtPoiLoader;
 import weiboCraw.scheduler.SpiderPgScheduler;
 import weiboCraw.scheduler.SpiderPgSchedulerParted;
@@ -30,8 +32,11 @@ public class UserDownloader {
      * @throws InstantiationException 
      * @throws SQLException 
      * @throws InterruptedException 
+     * @throws WeiboException 
+     * @throws JSONException 
      */
-    public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InterruptedException {
+    @SuppressWarnings("deprecation")
+    public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InterruptedException, JSONException, WeiboException {
 	// TODO Auto-generated method stub
 	Log.setConsole(true);
 	if(args.length != 6){
@@ -72,7 +77,8 @@ public class UserDownloader {
 	    int poiFinishedCount = 0;
 	    while(null != poiid){
 		Thread.sleep(random.nextInt(coffeeTime));
-		if(loader.userAtPoi(poiid)){
+		loader.getAllUserAtPoi(poiid);
+		if(!loader.userList.isEmpty()){
 		    List<User> userList = loader.userList;
 		    for(User u:userList){
 			userInsert.setString(1, u.getId());

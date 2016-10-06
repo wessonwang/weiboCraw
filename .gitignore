@@ -13,7 +13,7 @@ hs_err_pid*
 
 # eclipse project
 .classpath/*
-.settings/*
-.project/*
+.settings
+.project
 .jar
 *.log.*
